@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model buildings {
+  id   Int    @id @default(autoincrement())
+  name String @unique(map: "name") @db.VarChar(100)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model employees {
+  id          Int                    @id @default(autoincrement())
+  name        String                 @db.VarChar(50)
+  gender      employees_gender?
+  salary      Int
+  departments employees_departments?
+  position    employees_position?
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model japantravle {
+  id           Int                     @id @default(autoincrement())
+  name         String                  @db.VarChar(50)
+  age          Int
+  purpose      japantravle_purpose     @default(tourism)
+  depature     japantravle_depature    @default(incheon)
+  destination  japantravle_destination @default(tokyo)
+  periodOfStay Int
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model students {
+  name     String @db.VarChar(50)
+  id       String @id @db.VarChar(50)
+  password String @db.VarChar(100)
+  email    String @db.VarChar(50)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sesstion {
+  name  String @db.VarChar(100)
+  start String @db.VarChar(20)
+  end   String @db.VarChar(20)
+
+  @@ignore
+}
+
+enum employees_gender {
+  male
+  female
+}
+
+enum japantravle_purpose {
+  tourism
+  business
+  other
+}
+
+enum employees_departments {
+  marketing
+  IT
+  abvertising
+  design
+  finance
+}
+
+enum japantravle_depature {
+  incheon
+  gimpo
+  busan
+  jeju
+}
+
+enum employees_position {
+  intern
+  assistant
+  manager
+  header
+}
+
+enum japantravle_destination {
+  tokyo
+  osaka
+  fukuoka
+  saporo
+}
